@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'DetailView.dart';
 import 'AddItems.dart';
-class ListViews extends StatelessWidget {
-  
-  
+class ListViews extends StatefulWidget {
+  @override
+  _ListViewsState createState() => _ListViewsState();
+}
+
+class _ListViewsState extends State<ListViews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
         title:Text('Home Page'),
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.orange,
       ),
        body: ListView.builder(
        itemCount: item1.length,
@@ -18,27 +21,26 @@ class ListViews extends StatelessWidget {
           return ListTile(
              onTap: ()=>Navigator.push(context, MaterialPageRoute(
                builder: (_) => ItemDetails(item:item)
-             )),        
-    isThreeLine: true,
+             )), 
+                    isThreeLine: true,
             title: Text(item["title"]),
             leading:CircleAvatar(
               backgroundImage:AssetImage(item["img"],),
-            radius:30,
+            radius:40,
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-               
-                 Text(item["description"]),
-                SizedBox(height: 10,),
-                  
-              ],
-            ),
+                Text(item["description"]),
+                SizedBox(height: 50,),
+                ],
+                    ),
           );
         },
       ),
       floatingActionButton:FloatingActionButton(
-        onPressed:()=>Navigator.pushReplacement(context,MaterialPageRoute(
+        backgroundColor:Colors.orange,
+        onPressed:()=>Navigator.push(context,MaterialPageRoute(
           builder: (_)=>AddItem()
         )),
         tooltip: "Add Items",
@@ -47,30 +49,31 @@ class ListViews extends StatelessWidget {
     );
   }
 }
+
+
+
  final List item1 = [
     {
       
-      "title": "Cryptograhy",
-      "description":"Cryptograpphy is a book",
+      "title": "Books",
+      "description":" These are fifth semester books",
       "img":"assets/book.jpg",
     },
     {
       
-      "title": "Cryptography",
-      "description":"aaa",
+      "title":"Redmi Note 4",
+      "description":"This is redmi Note 4",
       "img":"assets/mobile.jpg",
     },
     {
      
-     "title": "Cryptography",
-      "description":"fffff",
-      "img":"",
+     "title": "Mother Teresa",
+      "description":"Mother Teresa is a social worker.",
+      "img":"assets/01.jpg",
     },
     {
-      "title": "Cryptography",
-      "description":"aaaa",
-      "img":"", 
+      "title": "Kalinchowk",
+      "description":"Kalinchowk Snowfall",
+      "img":"assets/02.jpg", 
     },
     ];
-
-

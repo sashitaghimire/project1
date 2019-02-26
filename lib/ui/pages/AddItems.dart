@@ -13,13 +13,12 @@ class _AddItemState extends State<AddItem> {
   picker()async{
     print("Picker is called");
     File img = await ImagePicker.pickImage(
-      source: ImageSource.gallery
+      source: ImageSource.camera,
     );
     if (img != null){
-      image=img;
       print(img.path);
       setState(() {
-        
+          image=img;
       });
     }
   }
@@ -27,7 +26,7 @@ class _AddItemState extends State<AddItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
-        backgroundColor:Colors.lightGreen,
+        backgroundColor:Colors.orange,
         title: Text('Add Items'),
       ),
 body: ListView(
@@ -56,22 +55,22 @@ prefixIcon: Icon(Icons.title)
    child:FlatButton.icon(
      icon:Icon(Icons.camera),
      label: Text("Add Images"),
-     color: Colors.green,
+     color: Colors.orange,
      onPressed: picker,
    ),
    ),
    SizedBox(height: 30,width:30),
    SizedBox(
      height: 400,
-     child: image== null ? null :Image.file(image),
+     child: image== null ? Container() :Image.file(image,height: 40,),
    ),SizedBox(height:20),
    SizedBox(height:30,width:30,
    child: RaisedButton.icon(
 icon:Icon(Icons.save),
 label:Text("Save"),
-color:Colors.green,
+color:Colors.orange,
 onPressed: (){
-   Navigator.pushReplacement(context, MaterialPageRoute(builder: 
+   Navigator.push(context, MaterialPageRoute(builder: 
    (context)=>ListViews()
    )
    );

@@ -6,10 +6,11 @@ class ItemDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:Colors.orange,
         title: Text(item["title"]),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -25,11 +26,11 @@ class ItemDetails extends StatelessWidget {
             ),
         
             Text(item["title"], style: Theme.of(context).textTheme.display1,),
-            SizedBox(height: 15.0,),
+            SizedBox(height:30.0,),
             Text(item["description"]),
-            SizedBox(height: 15.0,),
-           Text(item["img"]),
-           SizedBox(height: 15.0,),
+            SizedBox(height:40.0,),
+          
+           
             ],
         ),
       ),
