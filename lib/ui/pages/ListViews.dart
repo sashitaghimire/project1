@@ -1,12 +1,25 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'DetailView.dart';
 import 'AddItems.dart';
+
 class ListViews extends StatefulWidget {
   @override
   _ListViewsState createState() => _ListViewsState();
 }
 
 class _ListViewsState extends State<ListViews> {
+  List item1 = [];
+  addItem(String title, String description, File image) {
+    setState((){
+
+      item1.add({
+        "title": title,
+        "description":description,
+        "img": image
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +38,7 @@ class _ListViewsState extends State<ListViews> {
                     isThreeLine: true,
             title: Text(item["title"]),
             leading:CircleAvatar(
-              backgroundImage:AssetImage(item["img"],),
+              backgroundImage:FileImage(item["img"],),
             radius:40,
             ),
             subtitle: Column(
@@ -41,39 +54,39 @@ class _ListViewsState extends State<ListViews> {
       floatingActionButton:FloatingActionButton(
         backgroundColor:Colors.orange,
         onPressed:()=>Navigator.push(context,MaterialPageRoute(
-          builder: (_)=>AddItem()
+          builder: (_)=>AddItem(addItem)
         )),
         tooltip: "Add Items",
-         child: Icon(Icons.add) ,      ),
-      
+         child: Icon(Icons.add) ,   
+            ),
     );
   }
 }
 
 
 
- final List item1 = [
-    {
+//  final List item1 = [
+//     {
       
-      "title": "Books",
-      "description":" These are fifth semester books",
-      "img":"assets/book.jpg",
-    },
-    {
+//       "title": "Books",
+//       "description":" These are fifth semester books",
+//       "img":"assets/book.jpg",
+//     },
+//     {
       
-      "title":"Redmi Note 4",
-      "description":"This is redmi Note 4",
-      "img":"assets/mobile.jpg",
-    },
-    {
+//       "title":"Redmi Note 4",
+//       "description":"This is redmi Note 4",
+//       "img":"assets/mobile.jpg",
+//     },
+//     {
      
-     "title": "Mother Teresa",
-      "description":"Mother Teresa is a social worker.",
-      "img":"assets/01.jpg",
-    },
-    {
-      "title": "Kalinchowk",
-      "description":"Kalinchowk Snowfall",
-      "img":"assets/02.jpg", 
-    },
-    ];
+//      "title": "Mother Teresa",
+//       "description":"Mother Teresa is a social worker.",
+//       "img":"assets/01.jpg",
+//     },
+//     {
+//       "title": "Kalinchowk",
+//       "description":"Kalinchowk Snowfall",
+//       "img":"assets/02.jpg", 
+//     },
+//     ];

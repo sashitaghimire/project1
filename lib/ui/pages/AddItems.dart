@@ -4,12 +4,17 @@ import 'ListViews.dart';
 import 'dart:io';
 
 class AddItem extends StatefulWidget {
+  final Function add;
+  AddItem(this.add);
+
   @override
   _AddItemState createState() => _AddItemState();
 }
 
 class _AddItemState extends State<AddItem> {
   File image;
+  String title;
+  String description;
   picker()async{
     print("Picker is called");
     File img = await ImagePicker.pickImage(
@@ -33,6 +38,11 @@ body: ListView(
   padding: EdgeInsets.all(15),
   children: <Widget>[
    TextField(
+     onChanged: (value){
+       setState((){
+         title = value;
+       });
+     },
      decoration:InputDecoration(
        border:OutlineInputBorder(
        ),
@@ -42,6 +52,11 @@ prefixIcon: Icon(Icons.title)
    ) ,
    SizedBox(height: 30,width: 40,),
    TextField(
+     onChanged: (value){
+       setState((){
+         description = value;
+       });
+     },
      decoration: InputDecoration(
        border: OutlineInputBorder(
 
@@ -70,10 +85,8 @@ icon:Icon(Icons.save),
 label:Text("Save"),
 color:Colors.orange,
 onPressed: (){
-   Navigator.push(context, MaterialPageRoute(builder: 
-   (context)=>ListViews()
-   )
-   );
+  widget.add(title,description, image);
+   Navigator.pop(context);
 },
    ),
    ),
