@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'DetailView.dart';
 import 'AddItems.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 class ListViews extends StatefulWidget {
   @override
   _ListViewsState createState() => _ListViewsState();
@@ -10,16 +11,44 @@ class ListViews extends StatefulWidget {
 
 class _ListViewsState extends State<ListViews> {
   List item1 = [];
-  addItem(String title, String description, File image) {
+  void initState(){
+    super.initState();
+    getItem1();
+  }
+  getItem1()async{
+final sp = await SharedPreferences.getInstance();
+var itemString = sp.getString('item1');
+if(itemString == null){
+  print("items donot exist");
     setState((){
 
-      item1.add({
-        "title": title,
-        "description":description,
-        "img": image
+      item1=[
+
+      ];
       });
+   await saveItem1(item1);
+  }else{
+setState(() {
+  item1=json.decode(itemString);
+});
+  }
+  }
+  saveItem1(item1)async{
+    final sp= await SharedPreferences.getInstance();
+    await sp.setString('item1',json.encode(item1));
+    print(item1);
+  }
+  addItem(String title,String description, File image ){
+    setState(() {
+     item1.add({
+       "title":title,
+        "description":description,
+        "img":image.path,
+     }); 
+     saveItem1(item1);
     });
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +67,12 @@ class _ListViewsState extends State<ListViews> {
                     isThreeLine: true,
             title: Text(item["title"]),
             leading:CircleAvatar(
-              backgroundImage:FileImage(item["img"],),
+              backgroundImage:FileImage(File(item["img"]),),
             radius:40,
             ),
-            subtitle: Column(
+            trailing: IconButton(icon:Icon(Icons.delete),onPressed: (){
+
+            } ),           subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(item["description"]),
@@ -59,34 +90,8 @@ class _ListViewsState extends State<ListViews> {
         tooltip: "Add Items",
          child: Icon(Icons.add) ,   
             ),
+            
+  
     );
   }
 }
-
-
-
-//  final List item1 = [
-//     {
-      
-//       "title": "Books",
-//       "description":" These are fifth semester books",
-//       "img":"assets/book.jpg",
-//     },
-//     {
-      
-//       "title":"Redmi Note 4",
-//       "description":"This is redmi Note 4",
-//       "img":"assets/mobile.jpg",
-//     },
-//     {
-     
-//      "title": "Mother Teresa",
-//       "description":"Mother Teresa is a social worker.",
-//       "img":"assets/01.jpg",
-//     },
-//     {
-//       "title": "Kalinchowk",
-//       "description":"Kalinchowk Snowfall",
-//       "img":"assets/02.jpg", 
-//     },
-//     ];

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'ListViews.dart';
 import 'dart:io';
 
 class AddItem extends StatefulWidget {
@@ -12,18 +11,49 @@ class AddItem extends StatefulWidget {
 }
 
 class _AddItemState extends State<AddItem> {
-  File image;
+  File _image;
   String title;
   String description;
-  picker()async{
-    print("Picker is called");
-    File img = await ImagePicker.pickImage(
-      source: ImageSource.camera,
+  _showOptionsDialog () {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            height: 180,
+            child: Column(
+              children: <Widget>[
+                Container(color: Colors.grey.shade200,
+                  child: ListTile(title: Text("Image picker option"),),
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo_album),
+                  title: Text("Select Image"),
+                  onTap: (){
+                     _getImage(ImageSource.gallery);
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.camera_alt),
+                  title: Text("Take a picture"),
+                  onTap: (){
+                    _getImage(ImageSource.camera);
+                    Navigator.pop(context);
+                  } 
+                ),
+              ],
+            ),
+          ),
+        );
+      }
     );
-    if (img != null){
-      print(img.path);
+  }
+  Future _getImage(ImageSource source) async {
+    var image = await ImagePicker.pickImage(source:source);
+    if(image != null) {
       setState(() {
-          image=img;
+        _image = image;
       });
     }
   }
@@ -65,19 +95,20 @@ prefixIcon: Icon(Icons.title)
      ),
 
    ),
+   
    SizedBox(height:30,width: 30,),
    SizedBox(height: 30,width: 30,
    child:FlatButton.icon(
      icon:Icon(Icons.camera),
      label: Text("Add Images"),
      color: Colors.orange,
-     onPressed: picker,
+     onPressed: _showOptionsDialog,
    ),
    ),
    SizedBox(height: 30,width:30),
    SizedBox(
      height: 400,
-     child: image== null ? Container() :Image.file(image,height: 40,),
+     child: _image== null ? Container() :Image.file(_image,height: 40,),
    ),SizedBox(height:20),
    SizedBox(height:30,width:30,
    child: RaisedButton.icon(
@@ -85,7 +116,7 @@ icon:Icon(Icons.save),
 label:Text("Save"),
 color:Colors.orange,
 onPressed: (){
-  widget.add(title,description, image);
+  widget.add(title,description, _image);
    Navigator.pop(context);
 },
    ),
