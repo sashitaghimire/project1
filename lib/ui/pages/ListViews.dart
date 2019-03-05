@@ -66,13 +66,13 @@ setState(() {
              )), 
                     isThreeLine: true,
             title: Text(item["title"]),
+            trailing: IconButton(icon:Icon(Icons.delete_forever),onPressed: ()=>_delete(item)
+   ),
             leading:CircleAvatar(
               backgroundImage:FileImage(File(item["img"]),),
             radius:40,
             ),
-            trailing: IconButton(icon:Icon(Icons.delete),onPressed: (){
-
-            } ),           subtitle: Column(
+                       subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(item["description"]),
@@ -94,4 +94,31 @@ setState(() {
   
     );
   }
+void _delete(Map item)
+{
+  showDialog(
+    context:context,
+    builder:(BuildContext context){
+      return AlertDialog(
+        title:Text('Delete Item'),
+        content:Text("Are you sure you want to delete this item"),
+        actions: <Widget>[
+          FlatButton(
+            child:Text("delete"),
+            onPressed: (){removeItem(item);
+            Navigator.pop(context);
+            }
+          )
+        ],
+      );
+    }
+  );
+}
+void removeItem(Map item){
+  setState(()
+  {
+    item1.remove(item);
+  });
+  saveItem1(item1);
+}
 }
